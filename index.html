@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>겜잘알봇</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">🎮 겜잘알봇</div>
+  <nav class="tabs" id="tabs">
+    <button class="tab" data-view="ask">질문하기</button>
+    <button class="tab" data-view="me">내 취향</button>
+    <button class="tab" data-view="bots">봇</button>
+  </nav>
+  <div class="mode" id="modeTag"></div>
+</header>
+
+<main id="onboard" hidden>
+  <section class="round">
+    <div class="progress"><div class="pbar"><div class="pfill" id="pfill"></div></div><span id="roundNo"></span></div>
+    <div class="part" id="partTag"></div>
+    <h1 id="roundTitle">좋아하는 순서대로 눌러 주세요</h1>
+    <p class="sub" id="roundSub"></p>
+    <div class="cards" id="cards"></div>
+    <div class="ractions">
+      <button id="back" class="ghost">← 이전 판</button>
+      <button id="skipAll" class="ghost">이 판 건너뛰기</button>
+      <button id="undo" class="ghost">다시 고르기</button>
+      <button id="next" disabled>다음</button>
+    </div>
+    <div class="early" id="early" hidden><button id="finishEarly" class="link">게임성은 여기까지 → 아트 조사로</button></div>
+  </section>
+</main>
+
+<main id="review" hidden>
+  <section class="round">
+    <h1>이렇게 읽었어요</h1>
+    <p class="sub">순위를 모아 정리한 좋아하는 순서예요. 여기 없던 최애 게임이 있으면 더해 주세요.</p>
+    <div class="order" id="rOrder"></div>
+    <div class="artline" id="rArt"></div>
+    <div class="add">
+      <input id="customName" placeholder="여기 없던 최애 게임 (예: 바람의나라)">
+      <button id="customAdd" class="ghost">더하기</button>
+    </div>
+    <div class="ractions">
+      <button id="reviewBack" class="ghost">← 이전 판</button>
+      <button id="restart" class="ghost">처음부터</button>
+      <button id="analyze">취향 분석</button>
+    </div>
+  </section>
+</main>
+
+<main id="profile" hidden>
+  <section class="pcard">
+    <div class="pmeta" id="pMeta"></div>
+    <div class="hero" id="hero">
+      <div class="hemoji" id="hEmoji"></div>
+      <div class="hsub">당신의 게이머 타입은</div>
+      <h1 id="hType"></h1>
+      <p class="htag" id="hTag"></p>
+      <div class="traits" id="hTraits"></div>
+      <div class="hmini" id="hMini"></div>
+      <div class="hbrand">🎮 겜잘알봇 취향 테스트</div>
+    </div>
+    <div class="sharerow">
+      <button id="shareImg">🖼️ 결과 카드 저장</button>
+      <button id="shareText" class="ghost">📋 글로 복사</button>
+      <button id="makeBot" class="ghost">🤖 이 취향으로 봇 만들기</button>
+      <span class="toast" id="toast"></span>
+    </div>
+
+    <h2>취향 레이더</h2>
+    <div class="axes" id="pAxes"></div>
+
+    <div class="two">
+      <div><h2>💞 찰떡 게임</h2><div class="mates" id="pMates"></div></div>
+      <div><h2>⚡ 상극 게임</h2><div class="mates" id="pNemesis"></div></div>
+    </div>
+
+    <h2>👀 눈이 가는 그림</h2>
+    <p class="desc" id="pArtSum"></p>
+    <div class="artbars" id="pArt"></div>
+
+    <h2>🗺️ 편식 탈출 퀘스트</h2>
+    <p class="desc" id="pQuest"></p>
+    <div class="outside" id="pOutside"></div>
+
+    <details class="more-detail">
+      <summary>자세한 분석 보기</summary>
+      <p class="desc"><b id="pSummary"></b></p>
+      <div class="chips" id="pKeywords"></div>
+      <p class="desc" id="pDesc"></p>
+      <h3 id="pMakerH">만드는 사람으로서</h3>
+      <p class="desc" id="pMaker"></p>
+      <h3>축 근거</h3>
+      <ul class="notes" id="pNotes"></ul>
+      <h3>화풍 근거</h3>
+      <ul class="notes" id="pArtNotes"></ul>
+      <h3>좋아하는 순서</h3>
+      <div class="order" id="pOrder"></div>
+    </details>
+
+    <div class="pfoot">
+      <button id="toAsk">이제 질문하기 →</button>
+      <button id="remix" class="ghost">✨ 문구 다시 쓰기</button>
+      <button id="redo" class="ghost">처음부터 다시 하기</button>
+    </div>
+  </section>
+</main>
+
+<main id="botsView" hidden>
+  <section class="pcard">
+    <h1>🤖 봇</h1>
+    <p class="desc">내 취향을 이입한 봇을 만들고, 봇 카드 파일로 동료와 주고받아요. 불러온 봇은 나중에 대화·토론 무대에 올릴 수 있어요.</p>
+    <div class="boteditor" id="botEditor">
+      <div class="bepreview">
+        <div class="avatar" id="beAvatar">🤖</div>
+        <div>
+          <div class="bename" id="beNameView"></div>
+          <div class="betype" id="beType"></div>
+          <div class="bubble2" id="beSay"></div>
+        </div>
+      </div>
+      <div class="beform">
+        <label>이름 <input id="beName" maxlength="30"></label>
+        <label>아이콘 <input id="beEmoji" maxlength="4" class="short"></label>
+        <label class="wide">말투·성격 <textarea id="beVoice" rows="3" maxlength="600"></textarea></label>
+        <label class="wide">입버릇 <input id="beCatch" maxlength="120"></label>
+        <div class="beact"><button id="beSave">내 봇 저장</button><span class="toast" id="beToast"></span></div>
+      </div>
+    </div>
+    <h2>봇 목록</h2>
+    <div class="botlist" id="botList"></div>
+    <div class="importrow">
+      <label class="ghost filebtn">📥 봇 카드 불러오기<input type="file" id="botImport" accept=".json,application/json" hidden></label>
+      <span class="desc small">동료에게 받은 <code>○○.gamebot.json</code> 파일</span>
+    </div>
+  </section>
+</main>
+
+<main id="askView" hidden>
+  <section class="ask">
+    <div class="askhint" id="askHint"></div>
+    <div class="thread" id="thread"></div>
+    <div class="composer" id="composer">
+      <div class="attach" id="attachBox" hidden><img id="attachImg" alt=""><button id="attachDel" class="x">✕</button></div>
+      <textarea id="q" rows="2" placeholder="의견이나 고민을 적어 주세요. 예: 스킬창 UI/UX 가 별로야, 어떻게 바꿀까?  (우리 화면 캡처는 붙여넣기·끌어 놓기)"></textarea>
+      <div class="cbar">
+        <label class="ghost filebtn">📎 화면 캡처<input type="file" id="file" accept="image/*" hidden></label>
+        <span class="cost" id="cost"></span>
+        <button id="send">묻기</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="boardView" hidden>
+  <section class="ask"><div class="thread" id="boardOne"></div></section>
+</main>
+
+<div class="loading" id="loading" hidden><div class="spin"></div><p id="loadingText">취향을 읽는 중…</p></div>
+
+<script src="games.js"></script>
+<script src="app.js"></script>
+<script src="ask-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="profile-ui.js"></script>
+</body>
+</html>

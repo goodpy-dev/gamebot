@@ -1,0 +1,14 @@
+{
+  "name": "gamebot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "겜잘알봇 — 취향 테스트로 나를 이입한 게임 레퍼런스 봇",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0"
+  }
+}
